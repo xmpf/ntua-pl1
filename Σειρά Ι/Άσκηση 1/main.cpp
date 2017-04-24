@@ -1,17 +1,15 @@
 #include <iostream>
+#include <new>
 
-#define DEBUG(X) printf("\t {%lld, %lld} \t", X.value, X.index)
-#define DEBUG2(X) printf("\t [%lld] \t", X)
 
-/* Function prototypes */
-void showCall(char *);
 typedef long long int bigInt;
 
 /** main **/
 int main(int argc, char *argv[]) {
 
     /********[ Input file ]************/
-    FILE *fin = fopen ("file.in", "r");
+    FILE *fin = fopen (argv[1], "r");
+    if (fin == NULL) { exit(EXIT_FAILURE); }
 
     /********[ Data structures]********/
     typedef struct {
@@ -28,12 +26,16 @@ int main(int argc, char *argv[]) {
 
     fscanf (fin, " %lld", &n);
 
-    A = new bigInt[n]; // allocate space for heights
-    L = new pair_t[n];
-    R = new pair_t[n];
+    try { // error handling for failed memory allocations
+        A = new bigInt[n]; // allocate space for heights
+        L = new pair_t[n];
+        R = new pair_t[n];
+    } catch (const std::bad_alloc& e) {
+        std::cout << "Allocation failed: " << e.what() << '\n';
+    }
 
     // parse-from-file loop
-    while (i < n) { // while not EOF encountered :: O(n)
+    while ((i < n) && (!feof (fin))) { // while not EOF encountered :: O(n)
         fscanf (fin, " %lld", &A[i]);
         i++;
     }
@@ -85,19 +87,19 @@ int main(int argc, char *argv[]) {
         if (max < length) { max = length; }
         i++;
     }
-    printf ("\nResult: %lld\n", max);
+    printf ("Result: %lld\n", max);
+
     /*****[ Clean-Up routine ]*****/
     delete[] A; // free allocated space
     A = NULL;   // point A to NULL
+
     delete[] L;
     L = NULL;
+
     delete[] R;
     R = NULL;
+
     fclose (fin);
+
     return 0;
 } // end-of-main
-
-void showCall (char *s)
-{
-    printf ("Usage:\t %s <in-file>\n", s);
-}
