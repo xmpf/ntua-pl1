@@ -42,10 +42,11 @@ inline void init (void)
 inline bigInt skitrip (void)
 {
     bigInt ans = 0; // result
-    int i = 0, j;   // indexes
+    static int i = 0, j;   // indexes
+    
 
     for (i = 0; i < (int)L.size(); i++) { // LEFT -> RIGHT
-        for (j = (int)R.size() - 1; A[L[i]] < A[R[j]]; j--) { /* find minimum j */ }
+        for (j = (int)R.size() - 1; j >= 0 && A[L[i]] < A[R[j]]; j--) { /* find minimum j */ }
         ans = max (ans, R[j + 1] - L[i]);
     }
 
