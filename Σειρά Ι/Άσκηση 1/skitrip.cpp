@@ -63,6 +63,12 @@ int main (int argc, char *argv[])
 
     cout << "Result: " << skitrip () << endl;
 
+    { // Return (possible) memory to OS
+        A.clear();      A.shrink_to_fit();
+        L.clear();      L.shrink_to_fit();
+        R.clear();      R.shrink_to_fit();
+    }
+
     return 0;
 } // end-of-main
 
