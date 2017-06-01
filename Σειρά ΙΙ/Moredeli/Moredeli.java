@@ -50,7 +50,7 @@ public class Moredeli {
                 return (a.getCost() - b.getCost());
             }
         };
-        pq = new PriorityQueue<struct_t>(cmp); // get space for our PriorityQueue
+        pq = new PriorityQueue<struct_t>(10, cmp); // get space for our PriorityQueue
 
         parseInput (); // parse input from file given as argument
     }
@@ -114,7 +114,7 @@ public class Moredeli {
     }
 
     public static void printSolution (struct_t t) {
-        System.out.println (t.getCost() + " " + t.getPath());
+        System.out.format ("%d %s\n", t.getCost(), t.getPath());
     }
 
     public static void possibleMoves (struct_t t) {
